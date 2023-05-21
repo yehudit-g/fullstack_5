@@ -9,7 +9,12 @@ export class Home extends Component {
             isLoading: true,
             isError: false,
             userNow: null,
+            username: '',
+            userPassword: ''
         }
+        this.handleChangePas = this.handleChangePas.bind(this);
+        this.handleChangename = this.handleChangename.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     /* קובץ ג'אוה סקריפט המקושר לכל העמודים */
@@ -28,7 +33,7 @@ export class Home extends Component {
     /* הפונקציה מופעלת בטעינת כל דף, ואם יש משתמש מחובר" 
     -מחליפה את הכפתורים המוצגים ומציגה את שם המשתמש על המסך */
     logIn() {
-
+        console.log('success!!')
         // if (localStorage.getItem('userNow') != null) {
         //     document.getElementById("logOut").className = "button_logOut";
         //     document.getElementById("score").className = "button_logOut";
@@ -40,25 +45,37 @@ export class Home extends Component {
 
     /* פונקציית התחברות, מקבלת נתנוים מהפורם ועושה בדיקות תקינות לקלט*/
 
-    myFunction() {
-       // let password = document.forms["myForm"]["password"].value;
-       // let name = document.forms["myForm"]["userName"].value;
+
+    handleChangename(event) {
+        console.log(event.target.value)
+        this.setState({ username: event.target.value });
+    }
+    handleChangePas(event) {
+        this.setState({ userPassword: event.target.value });
+    }
+
+    handleSubmit(event) {
+        console.log('hey hey')
+        let password = this.state.userPassword;
+        let name = this.state.username;
         let user = this.state.users;
 
         if (user !== null) {
-            // if (user.address.geo.lat.slice(-4) === password) {
-            //     localStorage.setItem("userNow", user.username);
-            //     this.logIn();
-            // }
-            // else {
-            //     alert("סיסמא לא נכונה");
-            //     return false;
-            // }
+            if (user.address.geo.lat.slice(-4) === password) {
+                localStorage.setItem("userNow", user.username);
+                this.logIn();
+            }
+            else {
+                alert("סיסמא לא נכונה");
+                return false;
+            }
         }
         else {
             alert("שם משתמש לא קיים במערכת");
             return false;
         }
+        event.preventDefault();
+
     }
 
 
@@ -81,10 +98,8 @@ export class Home extends Component {
                 <tr key={user.id}>
                     <td>{user.address.geo.lat.slice(-4)}</td>
                 </tr>
-
             )
         })
-
     }
 
     renderHome = () => {
@@ -109,7 +124,7 @@ export class Home extends Component {
 
         return (
             <div>
-                <div>
+                {/* <div>
                     <nav id="navigation">
                         <a id="logOut" onclick="logOut()" href="home.html" class="hide">LogOut</a>
                         <a id="Info" href="info.html" class="hide">Info</a>
@@ -117,13 +132,17 @@ export class Home extends Component {
                         <a id="Albums" href="albums.html" class="hide">Albums </a>
                         <a id="Posts" href="photos.html" class="hide">Posts </a>
                     </nav>
-                </div>
+                </div> */}
 
                 <div>
-                    <form method="post" name="myForm" onsubmit={this.myFunction()}>
-                        <input name="userName" placeholder="userName"></input>
-                        <input name="password" placeholder="password"></input>
-                        <button type="submit" id="logIn1" onclick={this.logIn()} class="button_login">LogIn</button>
+                    <form /* method="post"*/ name="myForm" onSubmit={this.handleSubmit}>
+                        <label>
+                            Name:
+                            <input type="text" name="userName" placeholder="userName" value={this.state.username} onChange={this.handleChangename}></input>
+                        </label>
+
+                        <input name="password" placeholder="password" value={this.state.userPassworduserPassword} onChange={this.handleChangePas}></input>
+                        <button type="submit" id="logIn1" onSubmit={this.handleSubmit} class="button_login">LogIn</button>
                     </form>
                 </div>
 
