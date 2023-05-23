@@ -1,38 +1,34 @@
-import React, { Component } from "react";
+import React, { Component,  useState, useEffect  } from "react";
 import './headerStyle.css';
 
-export class Home extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            users: [],
-            isLoading: true,
-            isError: false,
-            userNow: null,
-            username: '',
-            userPassword: ''
-        }
-        this.handleChangePas = this.handleChangePas.bind(this);
-        this.handleChangename = this.handleChangename.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+export function Home() {
+        const [users, setUsers] = useState();
+        const [isLoading, setLoading] = useState(false);
+        const [isError, setError] = useState(false);
+        const [username, setName] = useState();
+        const [userPassword, setPassword] = useState();
+
+        // this.handleChangePas = this.handleChangePas.bind(this);
+        // this.handleChangename = this.handleChangename.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
+    
 
     /* קובץ ג'אוה סקריפט המקושר לכל העמודים */
 
     /* הפונקציה מופעלת בלחיצה על כפתור "התנתק" 
     -מחליפה את הכפתורים המוצגים ומוחקת את השם משתמש מהזיכרון */
-    logOut() {
-        // document.getElementById("logOut").className = "hide";
-        // document.getElementById("score").className = "hide";
-        // document.getElementById("logIn1").className = "button_login";
-        // document.getElementById("logIn2").className = "button_login";
-        // localStorage.removeItem("userNow");
-    }
+    // logOut() {
+    //     // document.getElementById("logOut").className = "hide";
+    //     // document.getElementById("score").className = "hide";
+    //     // document.getElementById("logIn1").className = "button_login";
+    //     // document.getElementById("logIn2").className = "button_login";
+    //     // localStorage.removeItem("userNow");
+    // }
 
 
     /* הפונקציה מופעלת בטעינת כל דף, ואם יש משתמש מחובר" 
     -מחליפה את הכפתורים המוצגים ומציגה את שם המשתמש על המסך */
-    logIn() {
+    function logIn() {
         console.log('success!!')
         // if (localStorage.getItem('userNow') != null) {
         //     document.getElementById("logOut").className = "button_logOut";
@@ -46,23 +42,37 @@ export class Home extends Component {
     /* פונקציית התחברות, מקבלת נתנוים מהפורם ועושה בדיקות תקינות לקלט*/
 
 
-    handleChangename(event) {
+    function handleChangename(event) {
+        setName(event.target.value);
         console.log(event.target.value)
-        this.setState({ username: event.target.value });
     }
-    handleChangePas(event) {
-        this.setState({ userPassword: event.target.value });
+    function  handleChangePas(event) {
+        setPassword(event.target.value);
+        console.log(userPassword)
     }
 
-    handleSubmit(event) {
+    async function handleSubmit(event) {
         console.log('hey hey')
-        let password = this.state.userPassword;
-        let name = this.state.username;
-        let user = this.state.users;
+       // setLoading(true);
+
+        const response = await fetch("https://jsonplaceholder.typicode.com/users?username=Bret")
+        if (response.ok) {
+            const users1 = await response.json();
+            this.setUsers(users1);
+           // this.setLoading(false )
+            console.log(users1)
+        }
+        else {
+           // this.setState({ isError: false, isLoading: false })
+        }
+        let password = userPassword;
+        let name = username;
+        let user = users;
 
         if (user !== null) {
             if (user.address.geo.lat.slice(-4) === password) {
-                localStorage.setItem("userNow", user.username);
+                console.log("there is a user succes!");
+                localStorage.setItem("userNow", username);
                 this.logIn();
             }
             else {
@@ -78,46 +88,33 @@ export class Home extends Component {
 
     }
 
-
-    async componentDidMount() {
-        this.setState({ isLoading: true })
-
-        const response = await fetch("https://jsonplaceholder.typicode.com/users?username=Bret")
-        if (response.ok) {
-            const users = await response.json();
-            this.setState({ users: users, isLoading: false })
-        }
-        else {
-            this.setState({ isError: false, isLoading: false })
-        }
+    function renderHead (){
+        // return this.state.users.map(user => {
+        //     return (
+        //         <tr key={user.id}>
+        //             <td>{user.address.geo.lat.slice(-4)}</td>
+        //         </tr>
+        //     )
+        // })
     }
 
-    renderHead = () => {
-        return this.state.users.map(user => {
-            return (
-                <tr key={user.id}>
-                    <td>{user.address.geo.lat.slice(-4)}</td>
-                </tr>
-            )
-        })
+    function renderHome () {
+        // return this.state.users.map(user => {
+        //     return (
+        //         <tr key={user.id}>
+        //             <td>{user.name}</td>
+        //         </tr>
+        //     )
+        // })
     }
 
-    renderHome = () => {
-        return this.state.users.map(user => {
-            return (
-                <tr key={user.id}>
-                    <td>{user.name}</td>
-                </tr>
-            )
-        })
-    }
-
-    render() {
-        const { users, isLoading, isError } = this.state;
-        if (isLoading) {
+        const _users=users;
+        const _isLoading=isLoading;
+        const _isError = isError;
+        if (_isLoading) {
             return <div>Loading..</div>
         }
-        if (isError) {
+        if (_isError) {
             return <div>error..</div>
         }
 
@@ -135,31 +132,30 @@ export class Home extends Component {
                 </div> */}
 
                 <div>
-                    <form /* method="post"*/ name="myForm" onSubmit={this.handleSubmit}>
+                    <form /* method="post"*/ name="myForm" onSubmit={handleSubmit}>
                         <label>
                             Name:
-                            <input type="text" name="userName" placeholder="userName" value={this.state.username} onChange={this.handleChangename}></input>
+                            <input type="text" name="userName" placeholder="userName" value={username} onChange={handleChangename}></input>
                         </label>
 
-                        <input name="password" placeholder="password" value={this.state.userPassworduserPassword} onChange={this.handleChangePas}></input>
-                        <button type="submit" id="logIn1" onSubmit={this.handleSubmit} className="button_login">LogIn</button>
+                        <input name="password" placeholder="password" value={userPassword} onChange={handleChangePas}></input>
+                        <button type="submit" id="logIn1" onSubmit={handleSubmit} className="button_login">LogIn</button>
                     </form>
                 </div>
 
                 <table>
                     <thead>
                     
-                            {this.renderHead()}
+                            {renderHead()}
                       
                     </thead>
                     <tbody>
-                        {this.renderHome()}
+                        {renderHome()}
                     </tbody>
                 </table>
             </div>
 
         )
     }
-}
 
 export default Home;
