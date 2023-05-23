@@ -142,15 +142,15 @@ export class Home extends Component {
                         </label>
 
                         <input name="password" placeholder="password" value={this.state.userPassworduserPassword} onChange={this.handleChangePas}></input>
-                        <button type="submit" id="logIn1" onSubmit={this.handleSubmit} class="button_login">LogIn</button>
+                        <button type="submit" id="logIn1" onSubmit={this.handleSubmit} className="button_login">LogIn</button>
                     </form>
                 </div>
 
                 <table>
                     <thead>
-                        <tr>
+                    
                             {this.renderHead()}
-                        </tr>
+                      
                     </thead>
                     <tbody>
                         {this.renderHome()}
