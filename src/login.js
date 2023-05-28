@@ -1,13 +1,15 @@
 import React, { Component, useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import './headerStyle.css';
 import './login.css';
 
-export function Home() {
+export function LogIn() {
     const [users, setUsers] = useState("");
     const [isLoading, setLoading] = useState(false);
     const [isError, setError] = useState(false);
     const [username, setName] = useState("");
     const [userPassword, setPassword] = useState("");
+    const navigate = useNavigate();
 
     /* הפונקציה מופעלת בלחיצה על כפתור "התנתק" 
     -מחליפה את הכפתורים המוצגים ומוחקת את השם משתמש מהזיכרון */
@@ -24,6 +26,8 @@ export function Home() {
     -מחליפה את הכפתורים המוצגים ומציגה את שם המשתמש על המסך */
     function logIn() {
         console.log('success!!')
+        navigate('/home');
+
         // if (localStorage.getItem('userNow') != null) {
         //     document.getElementById("logOut").className = "button_logOut";
         //     document.getElementById("score").className = "button_logOut";
@@ -49,10 +53,12 @@ export function Home() {
         event.preventDefault();
 
         const response = await fetch("https://jsonplaceholder.typicode.com/users?username=Bret");
-        console.log(response.data)
         if (response.ok) {
             const users1 = await response.json();
             await setUsers(users1);
+            console.log(users1)
+            console.log(users)
+
             // this.setLoading(false )
         }
         else {
@@ -80,17 +86,7 @@ export function Home() {
         }
     }
 
-    function renderHead() {
-        // return this.state.users.map(user => {
-        //     return (
-        //         <tr key={user.id}>
-        //             <td>{user.address.geo.lat.slice(-4)}</td>
-        //         </tr>
-        //     )
-        // })
-    }
-
-    function renderHome() {
+  //  function renderHome() {
         // return this.state.users.map(user => {
         //     return (
         //         <tr key={user.id}>
@@ -98,17 +94,17 @@ export function Home() {
         //         </tr>
         //     )
         // })
-    }
+  //  }
 
-    const _users = users;
-    const _isLoading = isLoading;
-    const _isError = isError;
-    if (_isLoading) {
-        return <div>Loading..</div>
-    }
-    if (_isError) {
-        return <div>error..</div>
-    }
+    // const _users = users;
+    // const _isLoading = isLoading;
+    // const _isError = isError;
+    // if (_isLoading) {
+    //     return <div>Loading..</div>
+    // }
+    // if (_isError) {
+    //     return <div>error..</div>
+    // }
 
     return (
         <div id="div_signIn">
@@ -125,7 +121,7 @@ export function Home() {
                 </div> */}
 
                 <div className="form-wrapper">
-                    <form /* method="post"*/ name="myForm" onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <label>
                             Name:
                             <br/>
@@ -137,24 +133,13 @@ export function Home() {
                             <br/>
                             <input name="password" placeholder="password" value={userPassword} onChange={handleChangePas}></input>
                         </label>
-                        <button type="submit" id="logIn1" onSubmit={handleSubmit} className="button_login">LogIn</button>
+                        <button type="submit" id="logIn1" onSubmit={handleSubmit} className="button_login">Log In</button>
                     </form>
                 </div>
-
-                {/* <table>
-                    <thead>
-
-                        {renderHead()}
-
-                    </thead>
-                    <tbody>
-                        {renderHome()}
-                    </tbody>
-                </table> */}
             </div>
         </div>
 
     )
 }
 
-export default Home;
+export default LogIn;
