@@ -1,19 +1,13 @@
-import React, { Component,  useState, useEffect  } from "react";
+import React, { Component, useState, useEffect } from "react";
 import './headerStyle.css';
+import './login.css';
 
 export function Home() {
-        const [users, setUsers] = useState();
-        const [isLoading, setLoading] = useState(false);
-        const [isError, setError] = useState(false);
-        const [username, setName] = useState();
-        const [userPassword, setPassword] = useState();
-
-        // this.handleChangePas = this.handleChangePas.bind(this);
-        // this.handleChangename = this.handleChangename.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
-    
-
-    /* קובץ ג'אוה סקריפט המקושר לכל העמודים */
+    const [users, setUsers] = useState("");
+    const [isLoading, setLoading] = useState(false);
+    const [isError, setError] = useState(false);
+    const [username, setName] = useState("");
+    const [userPassword, setPassword] = useState("");
 
     /* הפונקציה מופעלת בלחיצה על כפתור "התנתק" 
     -מחליפה את הכפתורים המוצגים ומוחקת את השם משתמש מהזיכרון */
@@ -39,41 +33,41 @@ export function Home() {
         // }
     }
 
-    /* פונקציית התחברות, מקבלת נתנוים מהפורם ועושה בדיקות תקינות לקלט*/
-
-
+    //פונקציות המעדכנות את שם המשתמש והסיסמא בכל שינוי בקלט
     function handleChangename(event) {
         setName(event.target.value);
         console.log(event.target.value)
     }
-    function  handleChangePas(event) {
+    function handleChangePas(event) {
         setPassword(event.target.value);
         console.log(userPassword)
     }
 
+    //פונקציה המופעלת בלחיצה על כפתור כניסה, בודקת אם פרטי המשתמש קיימים בבסיס נתונים ונכונים
     async function handleSubmit(event) {
-        console.log('hey hey')
-       // setLoading(true);
+        // setLoading(true);
+        event.preventDefault();
 
-        const response = await fetch("https://jsonplaceholder.typicode.com/users?username=Bret")
+        const response = await fetch("https://jsonplaceholder.typicode.com/users?username=Bret");
+        console.log(response.data)
         if (response.ok) {
             const users1 = await response.json();
-            this.setUsers(users1);
-           // this.setLoading(false )
-            console.log(users1)
+            await setUsers(users1);
+            // this.setLoading(false )
         }
         else {
-           // this.setState({ isError: false, isLoading: false })
+            console.log("error fetch")
+            // this.setState({ isError: false, isLoading: false })
         }
-        let password = userPassword;
-        let name = username;
-        let user = users;
 
-        if (user !== null) {
+        if (users !== null) {
+            let password = userPassword;
+            let user = users[0];
+
             if (user.address.geo.lat.slice(-4) === password) {
                 console.log("there is a user succes!");
                 localStorage.setItem("userNow", username);
-                this.logIn();
+                logIn();
             }
             else {
                 alert("סיסמא לא נכונה");
@@ -84,11 +78,9 @@ export function Home() {
             alert("שם משתמש לא קיים במערכת");
             return false;
         }
-        event.preventDefault();
-
     }
 
-    function renderHead (){
+    function renderHead() {
         // return this.state.users.map(user => {
         //     return (
         //         <tr key={user.id}>
@@ -98,7 +90,7 @@ export function Home() {
         // })
     }
 
-    function renderHome () {
+    function renderHome() {
         // return this.state.users.map(user => {
         //     return (
         //         <tr key={user.id}>
@@ -108,19 +100,20 @@ export function Home() {
         // })
     }
 
-        const _users=users;
-        const _isLoading=isLoading;
-        const _isError = isError;
-        if (_isLoading) {
-            return <div>Loading..</div>
-        }
-        if (_isError) {
-            return <div>error..</div>
-        }
+    const _users = users;
+    const _isLoading = isLoading;
+    const _isError = isError;
+    if (_isLoading) {
+        return <div>Loading..</div>
+    }
+    if (_isError) {
+        return <div>error..</div>
+    }
 
+    return (
+        <div id="div_signIn">
+            <div className="wrapper">
 
-        return (
-            <div>
                 {/* <div>
                     <nav id="navigation">
                         <a id="logOut" onclick="logOut()" href="home.html" class="hide">LogOut</a>
@@ -131,31 +124,36 @@ export function Home() {
                     </nav>
                 </div> */}
 
-                <div>
+                <div className="form-wrapper">
                     <form /* method="post"*/ name="myForm" onSubmit={handleSubmit}>
                         <label>
                             Name:
+                            <br/>
                             <input type="text" name="userName" placeholder="userName" value={username} onChange={handleChangename}></input>
                         </label>
-
-                        <input name="password" placeholder="password" value={userPassword} onChange={handleChangePas}></input>
+                        <label>
+                            password:
+                            <br/>
+                            <input name="password" placeholder="password" value={userPassword} onChange={handleChangePas}></input>
+                        </label>
                         <button type="submit" id="logIn1" onSubmit={handleSubmit} className="button_login">LogIn</button>
                     </form>
                 </div>
 
-                <table>
+                {/* <table>
                     <thead>
-                    
-                            {renderHead()}
-                      
+
+                        {renderHead()}
+
                     </thead>
                     <tbody>
                         {renderHome()}
                     </tbody>
-                </table>
+                </table> */}
             </div>
+        </div>
 
-        )
-    }
+    )
+}
 
 export default Home;
