@@ -131,6 +131,7 @@ export function Home() {
                             <br/>
                             <input type="text" name="userName" placeholder="userName" value={username} onChange={handleChangename}></input>
                         </label>
+                        <br/>
                         <label>
                             password:
                             <br/>
