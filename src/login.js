@@ -13,13 +13,14 @@ export function LogIn() {
 
     /* הפונקציה מופעלת בלחיצה על כפתור "התנתק" 
     -מחליפה את הכפתורים המוצגים ומוחקת את השם משתמש מהזיכרון */
-    // logOut() {
-    //     // document.getElementById("logOut").className = "hide";
-    //     // document.getElementById("score").className = "hide";
-    //     // document.getElementById("logIn1").className = "button_login";
-    //     // document.getElementById("logIn2").className = "button_login";
-    //     // localStorage.removeItem("userNow");
-    // }
+    function logOut() {
+        console.log("out");
+        // document.getElementById("logOut").className = "hide";
+        // document.getElementById("score").className = "hide";
+        // document.getElementById("logIn1").className = "button_login";
+        // document.getElementById("logIn2").className = "button_login";
+        // localStorage.removeItem("userNow");
+    }
 
 
     /* הפונקציה מופעלת בטעינת כל דף, ואם יש משתמש מחובר" 
@@ -55,7 +56,7 @@ export function LogIn() {
         const response = await fetch("https://jsonplaceholder.typicode.com/users?username=Bret");
         if (response.ok) {
             const users1 = await response.json();
-            await setUsers(users1);
+            setUsers(users1);
             console.log(users1)
             console.log(users)
 
@@ -107,7 +108,9 @@ export function LogIn() {
     // }
 
     return (
+        
         <div id="div_signIn">
+            {logOut()}
             <div className="wrapper">
 
                 {/* <div>
