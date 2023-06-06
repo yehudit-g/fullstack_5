@@ -72,9 +72,9 @@ const Todos = () => {
             <li key={item.id}>
               {item.title}
               {item.completed ? (
-                <input type="checkbox" checked ould be m />
+                <input type="checkbox" checked />
               ) : (
-                <input type="checkbox" ould be m />
+                <input type="checkbox" />
               )}
             </li>
           ))}
