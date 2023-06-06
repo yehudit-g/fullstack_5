@@ -29,6 +29,8 @@ const Home = () => {
   return (
     <>
       <Outlet />
+      <button onClick={logout}>Log Out</button>
+
       {/* <p>hello {username}</p> */}
       {/* <nav>
         <ul>

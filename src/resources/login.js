@@ -74,9 +74,11 @@ export function LogIn() {
 
           if (user.address.geo.lat.slice(-4) === userPassword) {
             alert("Yes, the username and password are correct!");
-            localStorage.setItem("currentUser", user);
+            localStorage.setItem("currentUser", JSON.stringify(user));
             localStorage.setItem("currentUsername", username);
-            navigate("/layout");
+            localStorage.setItem("currentUserId", user.id);
+            const userId = JSON.parse(localStorage.getItem("currentUser")).id;
+            navigate(`/users/${userId}/layout`);
             // setGoToLayout(true);
           } else {
             alert("Incorrect password");
