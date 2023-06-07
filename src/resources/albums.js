@@ -5,6 +5,7 @@ const Albums = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   let userId;
+  
   useEffect(() => {
     try {
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -41,16 +42,19 @@ const Albums = () => {
         <ul>
           {filteredData.map((item) => (
             <li key={item.id}>
+              <Link to={`/users/${item.userId}/albums/${item.id}/photos?userId=${userId}`}>
+                {console.log(`/users/${item.userId}/albums/${item.id}/photos?userId=${userId}`)}
               <strong>ID:</strong> {item.id}
               <br />
               <strong>Title:</strong> {item.title}
               <br />
+              </Link>
               <br />
             </li>
           ))}
         </ul>
       ) : (
-        <p>No todos found for the specified user.</p>
+        <p>No albums found for the specified user.</p>
       )}
     </>
   );
