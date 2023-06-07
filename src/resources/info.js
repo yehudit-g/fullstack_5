@@ -23,11 +23,9 @@ const Info = () => {
         fetch(`https://jsonplaceholder.typicode.com/users`)
             .then((response) => response.json())
             .then((data) => {
-                //console.log(data);
-                const infoData = data.filter((item) => item.userId === userId);
+                const infoData = data.filter((item) => item.id === userId);
                 setUserData(infoData);
                 setLoading(false);
-                //console.log("user fetch");
             })
             .catch((error) => {
                 console.error(error + "there is a problem with the fetch");
@@ -52,6 +50,16 @@ const Info = () => {
                             <strong>Name:</strong> {item.name}
                             <br />
                             <strong>UserName:</strong> {item.username}
+                            <br />
+                            <strong>Email:</strong> {item.email}
+                            <br />
+                            <strong>Address:</strong> {item.address.street+ " " + item.address.city }
+                            <br />
+                            <strong>Phone:</strong> {item.phone}
+                            <br />
+                            <strong>Website:</strong> {item.website}
+                            <br />
+                            <strong>Company:</strong> {item.company.name}
                             <br />
                         </li>
                     ))}
