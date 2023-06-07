@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Posts = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
-  let userId;
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     try {
@@ -12,7 +12,7 @@ const Posts = () => {
       if (!currentUser || !currentUser.id) {
         throw new Error("localStorage is empty, can't show the 'Posts'.");
       }
-      userId = currentUser.id;
+      setUserId(currentUser.id);
     } catch (error) {
       console.error(error);
     }
@@ -28,7 +28,7 @@ const Posts = () => {
         console.error(error + "there is a problem with the fetch");
         setLoading(false);
       });
-  }, []);
+  }, [userId]);
 
   const [clickedItems, setClickedItems] = useState([]);
 
@@ -69,7 +69,9 @@ const Posts = () => {
                 <br />
               </button>
               {clickedItems.includes(item.id) && (
-                <Link to={`/users/${userId}/posts/${item.id}/comments`}>
+                <Link
+                  to={`/users/${userId}/posts/${item.id}/comments?userId=${userId}`}
+                >
                   Comments
                 </Link>
               )}

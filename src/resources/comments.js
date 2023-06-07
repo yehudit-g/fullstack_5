@@ -1,27 +1,20 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Comments = () => {
+  const { idUser, idPost } = useParams();
+  console.log(idUser, idPost);
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
-  let userId;
+
   useEffect(() => {
-    try {
-      const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-      if (!currentUser || !currentUser.id) {
-        throw new Error("localStorage is empty, can't show the 'Comments'.");
-      }
-      userId = currentUser.id;
-    } catch (error) {
-      console.error(error);
-    }
-    let filteredTodos;
+    let filteredComments;
     fetch("https://jsonplaceholder.typicode.com/comments")
       .then((response) => response.json())
       .then((data) => {
-        filteredTodos = data.filter((item) => item.postId === userId);
+        filteredComments = data.filter((item) => item.postId === idPost);
 
-        setFilteredData(filteredTodos);
+        setFilteredData(filteredComments);
         setLoading(false);
       })
       .catch((error) => {
@@ -29,31 +22,34 @@ const Comments = () => {
 
         setLoading(false);
       });
-  }, []);
+  }, [idPost]);
   return (
     <>
       {/* <Outlet /> */}
-      <Link to={`/users/${userId}/layout`}>Go back</Link>
+      <Link to={`/users/${idUser}/layout`}>Go back</Link>
       <h1>
-        Comments of {localStorage.currentUsername} post of{" "}
-        {localStorage.currentUsername}:
+        Comments of post {idPost} of {localStorage.currentUsername}:
       </h1>
       {loading ? (
         <p>Loading...</p>
-      ) : filteredData !== null ? (
+      ) : filteredData.length > 0 ? (
         <ul>
           {filteredData.map((item) => (
             <li key={item.id}>
               <strong>ID:</strong> {item.id}
               <br />
-              <strong>Title:</strong> {item.title}
+              <strong>Name:</strong> {item.name}
+              <br />
+              <strong>Email:</strong> {item.email}
+              <br />
+              <strong>Body:</strong> {item.body}
               <br />
               <br />
             </li>
           ))}
         </ul>
       ) : (
-        <p>No todos found for the specified user.</p>
+        <p>No comments found for the specified user.</p>
       )}
     </>
   );
