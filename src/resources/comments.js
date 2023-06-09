@@ -26,7 +26,7 @@ const Comments = () => {
   return (
     <>
       {/* <Outlet /> */}
-      <Link to={`/users/${idUser}/layout`}>Go back</Link>
+      <Link to={`/users/${idUser}/layout`}>Go </Link>
       <h1>
         Comments of post {idPost} of {localStorage.currentUsername}:
       </h1>
