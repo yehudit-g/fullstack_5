@@ -1,7 +1,8 @@
 import { Outlet, Link } from "react-router-dom";
 
 const Layout = () => {
-  const username = localStorage.currentUsername;
+  //const username = localStorage.currentUsername;
+  const user=JSON.parse(localStorage.currentUser);
   let userId;
 
   try {
@@ -17,7 +18,7 @@ const Layout = () => {
   return (
     <>
       <p>
-        hello {username} {userId}
+        hello {user.name}!
       </p>
 
       <nav>
