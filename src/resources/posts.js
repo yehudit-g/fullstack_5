@@ -30,6 +30,7 @@ const Posts = () => {
       });
   }, [userId]);
 
+  
   const [clickedItems, setClickedItems] = useState([]);
 
   const handleClick = (itemId) => {

@@ -16,16 +16,20 @@ const Home = () => {
       localStorage.clear();
 
       navigate("/login");
+
     } else {
       navigate("/layout");
     }
   }, [currentUserExist]);
+
+
 
   const logout = () => {
     console.log("loging out");
     setCurrentUserExist(false);
   };
 
+  
   return (
     <>
       <Outlet />

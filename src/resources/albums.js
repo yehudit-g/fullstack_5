@@ -5,7 +5,8 @@ const Albums = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   let userId;
-  
+
+
   useEffect(() => {
     try {
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -16,6 +17,8 @@ const Albums = () => {
     } catch (error) {
       console.error(error);
     }
+
+
     let filteredTodos;
     fetch("https://jsonplaceholder.typicode.com/albums")
       .then((response) => response.json())
@@ -27,15 +30,17 @@ const Albums = () => {
       })
       .catch((error) => {
         console.error(error + "there is a problem with the fetch");
-
         setLoading(false);
       });
   }, []);
+
+
   return (
     <>
       {/* <Outlet /> */}
       <Link to={`/users/${userId}/layout`}>Go back</Link>
-      <h1>Posts of {localStorage.currentUsername}:</h1>
+      <h1>Albums of {localStorage.currentUsername}:</h1>
+
       {loading ? (
         <p>Loading...</p>
       ) : filteredData !== null ? (
@@ -44,10 +49,10 @@ const Albums = () => {
             <li key={item.id}>
               <Link to={`/users/${item.userId}/albums/${item.id}/photos?userId=${userId}`}>
                 {console.log(`/users/${item.userId}/albums/${item.id}/photos?userId=${userId}`)}
-              <strong>ID:</strong> {item.id}
-              <br />
-              <strong>Title:</strong> {item.title}
-              <br />
+                <strong>ID:</strong> {item.id}
+                <br />
+                <strong>Title:</strong> {item.title}
+                <br />
               </Link>
               <br />
             </li>

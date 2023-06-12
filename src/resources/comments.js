@@ -7,6 +7,7 @@ const Comments = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     let filteredComments;
     fetch("https://jsonplaceholder.typicode.com/comments")
@@ -19,10 +20,11 @@ const Comments = () => {
       })
       .catch((error) => {
         console.error(error + "there is a problem with the fetch");
-
         setLoading(false);
       });
   }, [idPost]);
+
+
   return (
     <>
       {/* <Outlet /> */}
@@ -30,6 +32,7 @@ const Comments = () => {
       <h1>
         Comments of post {idPost} of {localStorage.currentUsername}:
       </h1>
+
       {loading ? (
         <p>Loading...</p>
       ) : filteredData.length > 0 ? (

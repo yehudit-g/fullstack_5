@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 const Todos = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortCriterion, setSortCriterion] = useState("serial");
   let userId;
+
+
   useEffect(() => {
     try {
       const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -15,6 +18,7 @@ const Todos = () => {
     } catch (error) {
       console.error(error);
     }
+
     let filteredTodos;
     fetch("https://jsonplaceholder.typicode.com/todos")
       .then((response) => response.json())
@@ -44,26 +48,28 @@ const Todos = () => {
       });
   }, [sortCriterion]);
 
+
+
   const handleSortChange = (event) => {
     setSortCriterion(event.target.value);
   };
+
+
   return (
     <>
+      <Link to={`/users/${userId}/layout`}>Go back</Link>
       <h1>Todos of {localStorage.currentUsername}:</h1>
 
       <div>
         <label htmlFor="sort-select">Sort by:</label>
-        <select
-          id="sort-select"
-          value={sortCriterion}
-          onChange={handleSortChange}
-        >
+        <select id="sort-select"  value={sortCriterion} onChange={handleSortChange}>
           <option value="serial">Serial</option>
           <option value="performance">Performance</option>
           <option value="alphabetical">Alphabetical</option>
           <option value="random">Random</option>
         </select>
       </div>
+      
       {loading ? (
         <p>Loading...</p>
       ) : filteredData !== null ? (
@@ -82,7 +88,6 @@ const Todos = () => {
       ) : (
         <p>No todos found for the specified user.</p>
       )}
-      <Link to={`/users/${userId}/layout`}>Go back</Link>
     </>
   );
 };

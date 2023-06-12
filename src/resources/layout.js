@@ -3,6 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 const Layout = () => {
   const username = localStorage.currentUsername;
   let userId;
+
   try {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (!currentUser || !currentUser.id) {
@@ -18,11 +19,9 @@ const Layout = () => {
       <p>
         hello {username} {userId}
       </p>
+
       <nav>
         <ul>
-          {/* < li>
-            <Link to="/login">Log Out</Link>
-          </li> */}
           <li>
             <Link to={`/users/${userId}/info`}>Info</Link>
           </li>

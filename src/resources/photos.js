@@ -8,9 +8,9 @@ const Photos = () => {
   const [currentPicture, setCurrentPicture] = useState(0);
   const [currentPictureNum, setCurrentPictureNum] = useState(0);
 
+
   useEffect(() => {
-    //let filteredPhotos;
-    fetch("https://jsonplaceholder.typicode.com/photos")
+    fetch(`https://jsonplaceholder.typicode.com/photos?albumId=${idAlbum}`)
       .then((response) => response.json())
       .then((data) => {
         let filteredPhotos = data.filter((item) => item.albumId == idAlbum);
@@ -69,7 +69,7 @@ const Photos = () => {
           <br />
           <img
             src={currentPicture.thumbnailUrl}
-            style={{ height: "70vh" }}
+            style={{ height: "60vh" }}
             alt="Thumbnail"
           />
         </div>
